@@ -3,5 +3,5 @@
 #Author: chenyunyun<hljyunxi@gmail.com>
 
 class Manifest(object):
-    def __init__(self):
+    def __init__(self, setting):
         pass
