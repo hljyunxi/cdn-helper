@@ -13,7 +13,8 @@ class ResourceParserMeta(type):
                 name, parents, dct)
 
         if 'ext' in dct:
-
+            for k in dct.ext.strip.split():
+                RESOURCE_PARSERS[k] = resource_parser
 
         return resource_parser
 
@@ -47,35 +48,34 @@ class ResourceParser(object):
 
 
 class HtmlResouceParser(self):
-    ext = "html"
+    ext = "html htm"
 
     def get_img_deps(self):
         img_matcher = re.compile(r"""<img.+?href=(["'])(.+?)(\1).*?>""").finditer
         with open(self.resouce_path, 'rb') as fh:
-            yield img_matcher(fh.read())
+            yield img_matcher(fh.read())[1]
 
     def get_js_deps(self):
         js_matcher = re.compile(r"""<script.+?src=(["'])(.+?)(\1).*?>""").finditer
         with open(self.resouce_path, 'rb') as fh:
-            yield js_matcher(fh.read())
+            yield js_matcher(fh.read())[1]
 
     def get_css_deps(self):
         css_matcher = re.compile(r"""<link.+?href=(["'])(.+?)(\1).*?>""").finditer
         with open(self.resouce_path, 'rb') as fh:
-            yield css_matcher(fh.read())
+            yield css_matcher(fh.read())[1]
 
 
 class CssResouceParser(self):
-    ext = "html"
+    ext = "css"
 
     def get_img_deps(self):
         img_matcher = re.compile(r"""<img.+?href=(["'])(.+?)(\1).*?>""").finditer
         with open(self.resouce_path, 'rb') as fh:
-            yield img_matcher(fh.read())
+            yield img_matcher(fh.read())[1]
 
     def get_js_deps(self):
         return []
 
     def get_css_deps(self):
         return []
-
