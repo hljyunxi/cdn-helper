@@ -22,3 +22,6 @@ class Builder(object):
 
     def write_versioned_files(self, reverse_deps_map):
         pass
+
+    def write_manifest(self, manifest):
+        pass
