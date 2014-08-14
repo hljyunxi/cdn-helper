@@ -36,7 +36,8 @@ class Builder(object):
 
                 for dep_file in IterTools(self.setting.static_path)\
                         .get_deps(src_file):
-                    rel_dep_file = utils.make_relative_path(dep_file)
+                    rel_dep_file = utils.make_relative_path(self.setting.static_path,\
+                            dep_file)
                     manifest.assets[rel_sr_file].append(rel_dep_file)
                     if dep_file not in travelled_file and dep_file in:
                         _build_manifest_helper([dep_file], manifest, travelled_files)
