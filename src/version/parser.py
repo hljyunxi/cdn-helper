@@ -53,15 +53,15 @@ class HtmlResouceParser(self):
     ext = ".html .htm"
 
     def get_img_deps(self, file_content):
-        img_matcher = re.compile(r"""<img.+?href=(["'])(.+?)(\1).*?>""").finditer
+        img_matcher = re.compile(r"""<img.+?href=(["'])(.+?)(\?.+?)?(\1).*?>""").finditer
         yield img_matcher(file_content)
 
     def get_js_deps(self, file_content):
-        js_matcher = re.compile(r"""<script.+?src=(["'])(.+?)(\1).*?>""").finditer
+        js_matcher = re.compile(r"""<script.+?src=(["'])(.+?)(\?.+?)?(\1).*?>""").finditer
         yield js_matcher(file_content)
 
     def get_css_deps(self, file_content):
-        css_matcher = re.compile(r"""<link.+?href=(["'])(.+?)(\1).*?>""").finditer
+        css_matcher = re.compile(r"""<link.+?href=(["'])(.+?)(\?.+?)?(\1).*?>""").finditer
         yield css_matcher(file_content)
 
 
@@ -69,7 +69,7 @@ class CssResouceParser(self):
     ext = ".css"
 
     def get_img_deps(self, file_content):
-        img_matcher = re.compile(r"""<img.+?src=(["'])(.+?)(\1).*?>""").finditer
+        img_matcher = re.compile(r"""<img.+?src=(["'])(.+?)(\?.+?)(\1).*?>""").finditer
         yield img_matcher(file_content)
 
     def get_js_deps(self):

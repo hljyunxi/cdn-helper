@@ -25,4 +25,3 @@ class IterTools(object):
                 yield dep_path
             else:
                 pass
-
