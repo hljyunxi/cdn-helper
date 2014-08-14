@@ -6,13 +6,22 @@ import sys
 
 class Builder(object):
     def __init__(self, setting):
+        assert(all([ i in setting for i in (
+            'output_path',
+            'static_path',
+            'manifest_path',
+        )])), "setting error"
+
         self.setting = setting
 
     def get_files(self, paths, exts):
         pass
 
     def build_manifest(self, files):
-        pass
+        assert isinstance(file, (list, tuple)), files
+
+        def _build_manifest_helper(static_path, files):
+            pass
 
     def need_recomiple(self, old_manifest, current_manifest):
         pass

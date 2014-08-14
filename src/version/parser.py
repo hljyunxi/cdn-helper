@@ -31,48 +31,46 @@ class ResourceParser(object):
     def get_ext(self):
         return self.ext
 
-    def get_img_deps(self):
+    def get_img_deps(content, self):
         raise errors.NotImplementError("get img deps not implement")
 
 
-    def get_js_deps(self):
+    def get_js_deps(content, self):
         raise errors.NotImplementError("get js deps not implement")
 
-    def get_css_deps(self):
+    def get_css_deps(content, self):
         raise errors.NotImplementError("get css deps not implement")
 
     def get_deps(self):
-        yield self.get_img_deps()
-        yield self.get_js_deps()
-        yield slef.get_css_deps()
+        with open(self.resouce_path, 'rb') as fh:
+            file_content = fh.read()
+            yield self.get_img_deps(file_content)
+            yield self.get_js_deps(file_content)
+            yield slef.get_css_deps(file_content)
 
 
 class HtmlResouceParser(self):
-    ext = "html htm"
+    ext = ".html .htm"
 
-    def get_img_deps(self):
+    def get_img_deps(self, file_content):
         img_matcher = re.compile(r"""<img.+?href=(["'])(.+?)(\1).*?>""").finditer
-        with open(self.resouce_path, 'rb') as fh:
-            yield img_matcher(fh.read())[1]
+        yield img_matcher(file_content)
 
-    def get_js_deps(self):
+    def get_js_deps(self, file_content):
         js_matcher = re.compile(r"""<script.+?src=(["'])(.+?)(\1).*?>""").finditer
-        with open(self.resouce_path, 'rb') as fh:
-            yield js_matcher(fh.read())[1]
+        yield js_matcher(file_content)
 
-    def get_css_deps(self):
+    def get_css_deps(self, file_content):
         css_matcher = re.compile(r"""<link.+?href=(["'])(.+?)(\1).*?>""").finditer
-        with open(self.resouce_path, 'rb') as fh:
-            yield css_matcher(fh.read())[1]
+        yield css_matcher(file_content)
 
 
 class CssResouceParser(self):
-    ext = "css"
+    ext = ".css"
 
-    def get_img_deps(self):
-        img_matcher = re.compile(r"""<img.+?href=(["'])(.+?)(\1).*?>""").finditer
-        with open(self.resouce_path, 'rb') as fh:
-            yield img_matcher(fh.read())[1]
+    def get_img_deps(self, file_content):
+        img_matcher = re.compile(r"""<img.+?src=(["'])(.+?)(\1).*?>""").finditer
+        yield img_matcher(file_content)
 
     def get_js_deps(self):
         return []
